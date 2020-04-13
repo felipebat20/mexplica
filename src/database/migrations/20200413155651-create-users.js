@@ -30,7 +30,7 @@ module.exports = {
                 type: Sequelize.STRING(500),
                 allowNull: true,
             },
-            about_me_tutor: {
+            about_me_student: {
                 type: Sequelize.STRING(500),
                 allowNull: true,
             },
@@ -46,6 +46,7 @@ module.exports = {
                 type: Sequelize.STRING(100),
                 allowNull: true,
             },
+
 
             created_at: {
                 type: Sequelize.DATE,
