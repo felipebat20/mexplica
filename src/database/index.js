@@ -1,10 +1,12 @@
 const Sequelize = require('sequelize');
-const dbConfig = require('../config/database');
+const requireDir = require('require-dir');
 
-const User = require('../models/User')
+const { User, Monitoria } = requireDir('../models/');
+const dbConfig = require('../config/database');
 
 const connection = new Sequelize(dbConfig);
 
 User.init(connection);
+Monitoria.init(connection);
 
 module.exports = connection;

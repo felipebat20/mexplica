@@ -8,6 +8,17 @@ module.exports = {
         return res.json(users);
     },
     async show(req, res) {
+        const id = req.params.id;
+        if (id) {
+            try {
+                const user = await User.findByPk(id);
+                return res.json(user);
+            } catch (err) {
+                return res.json({
+                    erro: err
+                });
+            }
+        }
 
     },
     async store(req, res) {
@@ -30,10 +41,27 @@ module.exports = {
         });
     },
     async update(req, res) {
+        const { id } = req.params;
+        const profile_photo = req.file.path;
+        const { name, about_me_tutor, about_me_student, price_per_hour, tagline, scope_area } = req.body;
+
+
+        try {
+            const result = await User.update({ name, profile_photo, about_me_tutor, about_me_student, price_per_hour, tagline, scope_area }, { where: { id } });
+
+            const user = await User.findByPk(id);
+            return res.json(user);
+        } catch (err) {
+            console.log(err);
+        }
+
 
     },
     async destroy(req, res) {
-        const id = req.params.id;
-        await User.destroy()
+        const { id } = req.params;
+        await User.destroy({
+            where: { id }
+        });
+        return res.send('Usuário deletado com sucesso!');
     },
 }
