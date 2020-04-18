@@ -9,16 +9,19 @@ module.exports = {
     },
     async show(req, res) {
         const id = req.params.id;
-        if (id) {
-            try {
-                const user = await User.findByPk(id);
-                return res.json(user);
-            } catch (err) {
-                return res.json({
-                    erro: err
-                });
-            }
+        const userExists = await User.findByPk(id);
+
+        if (!userExists) { res.status(401).send("Usuário não encontrado.") }
+
+        try {
+            const user = await User.findByPk(id);
+            return res.json(user);
+        } catch (err) {
+            return res.json({
+                erro: err
+            });
         }
+
 
     },
     async store(req, res) {
@@ -53,12 +56,18 @@ module.exports = {
             return res.json(user);
         } catch (err) {
             console.log(err);
+            return res.json({ erro: err });
         }
 
 
     },
     async destroy(req, res) {
         const { id } = req.params;
+
+        const userExists = await User.findByPk(id);
+
+        if (!userExists) { return res.status(404).send({ erro: "User not found" }) }
+
         await User.destroy({
             where: { id }
         });

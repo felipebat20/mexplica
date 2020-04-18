@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-class Monitoria extends Model {
+class Monitorias extends Model {
     static init(connection) {
         super.init({
             title: DataTypes.STRING,
@@ -11,6 +11,9 @@ class Monitoria extends Model {
         })
 
     }
+    static associate(models) {
+        this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+    }
 }
 
-module.exports = Monitoria;
+module.exports = Monitorias;

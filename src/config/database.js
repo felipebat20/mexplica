@@ -1,11 +1,11 @@
+require('dotenv/config');
 module.exports = {
-    database: 'vfzpmbsf',
-
-    host: 'tuffi.db.elephantsql.com',
-    port: 5432,
-    username: 'vfzpmbsf',
-    password: 'SGd1BeKO_ngqdQd1dlxfDn1YDjKXe564',
-    dialect: 'postgres',
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.PORT,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    dialect: process.env.DB_DIALECT,
     define: {
         timestamps: true,
         underscored: true,

@@ -9,4 +9,6 @@ const connection = new Sequelize(dbConfig);
 User.init(connection);
 Monitoria.init(connection);
 
+Monitoria.associate(connection.models);
+
 module.exports = connection;
