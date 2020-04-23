@@ -1,7 +1,7 @@
-const Monitoria = require('../models/Monitoria');
-const User = require('../models/User');
+import Monitoria from '../models/Monitoria';
+import User from '../models/User';
 
-module.exports = {
+class MonitoriaController {
     async store(req, res) {
         const user_id = req.params.user_id;
         const { title, scope, description } = req.body;
@@ -16,20 +16,20 @@ module.exports = {
         const monitoria = await Monitoria.create({ title, scope, description, user_id });
         return res.json(monitoria);
 
-    },
+    }
     async index(req, res) {
         const user_id = req.params.user_id;
         const monitorias = await Monitoria.findAll();
 
         return res.json(monitorias);
-    },
+    }
     async show(req, res) {
         const id = req.params.id;
         const monitoria = await Monitoria.findByPk(id).catch(err => {
             console.log(err);
         });
         return res.json(monitoria);
-    },
+    }
     async update(req, res) {
         const { user_id, id } = req.params;
         const user = await User.findByPk(user_id);
@@ -49,7 +49,7 @@ module.exports = {
         } catch (err) {
             return res.status(200).json({ erro: err });
         }
-    },
+    }
     async delete(req, res) {
         const { user_id, id } = req.params;
         const user = await User.findByPk(user_id);
@@ -65,5 +65,7 @@ module.exports = {
         }
         await Monitoria.destroy({ where: { id } });
         return res.status(200).json({ message: 'Monitoria deletada com sucesso!' });
-    },
+    }
 }
+
+export default new MonitoriaController();

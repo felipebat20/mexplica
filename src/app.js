@@ -1,20 +1,30 @@
-const express = require('express');
-const morgan = require('morgan');
+import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
 
-const userRoute = require('./routes/Users');
-const monitoriaRoute = require('./routes/Monitorias');
+import userRoute from './routes/Users';
+import monitoriaRoute from './routes/Monitorias';
+// const authRoute = require('./routes/Authentication');
 //const routes = require('./routes');
 
-require('./database');
+import './database';
 
-const app = express();
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
-
-app.use('/users', userRoute);
-app.use('/users', monitoriaRoute);
-
-module.exports = app;
+class App {
+    constructor() {
+        this.app = express();
+        this.middlewares();
+        this.routes();
+    }
+    middlewares() {
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(morgan('dev'));
+        this.app.use(cors());
+    }
+    routes() {
+        this.app.use('/users', userRoute);
+        this.app.use('/users', monitoriaRoute);
+        // this.app.use('/', authRoute);
+    }
+}
+export default new App().app;

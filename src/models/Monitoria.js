@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+import { Model, DataTypes } from 'sequelize';
 
 class Monitorias extends Model {
     static init(connection) {
@@ -16,4 +16,4 @@ class Monitorias extends Model {
     }
 }
 
-module.exports = Monitorias;
+export default Monitorias;
