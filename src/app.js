@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import userRoute from './routes/Users';
 import monitoriaRoute from './routes/Monitorias';
+import sessionRoute from './routes/Sessions';
 // const authRoute = require('./routes/Authentication');
 //const routes = require('./routes');
 
@@ -24,6 +25,7 @@ class App {
     routes() {
         this.app.use('/users', userRoute);
         this.app.use('/users', monitoriaRoute);
+        this.app.use(sessionRoute);
         // this.app.use('/', authRoute);
     }
 }
