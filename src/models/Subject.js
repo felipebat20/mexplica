@@ -1,6 +1,6 @@
 import Sequelize, { Model, DataTypes } from 'sequelize';
 import bcrypt from 'bcryptjs';
-class User extends Model {
+class Subject extends Model {
     static init(connection) {
         super.init({
             name: DataTypes.STRING,
@@ -16,4 +16,4 @@ class User extends Model {
 
 }
 
-export default User;
+export default Subject;
