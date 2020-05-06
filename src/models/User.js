@@ -26,7 +26,7 @@ class User extends Model {
     }
     static associate(models) {
         this.hasMany(models.Monitorias, { foreignKey: 'user_id', as: 'monitorias' });
-        this.belongsToMany(models.Subject, { foreignKey: 'user_id', through: 'user_subjects', as: 'techs' });
+        this.belongsToMany(models.Subject, { foreignKey: 'user_id', through: 'user_subjects', as: 'subjects' });
     }
     checkPassword(password) {
         return bcrypt.compare(password, this.password_hash);
