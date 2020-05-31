@@ -3,32 +3,35 @@ import User from '../models/User';
 
 class MonitoriaController {
     async store(req, res) {
-            const user_id = req.params.user_id;
-            const { title, scope, description } = req.body;
+            const { user_id } = req.params;
+            const { title, scope, value, location, description } = req.body;
             console.log(user_id);
 
-            const user = await User.findByPk(user_id);
+            const user = await User.findByPk(user_id).catch(err => {
+                console.log(err);
+            });
 
             if (!user) {
                 return res.status(400).json({ error: 'User not found' });
             }
+            const monitoria = await Monitoria.create({ title, scope, value, location, description, user_id });
 
-            const monitoria = await Monitoria.create({ title, scope, description, user_id });
+
             return res.json(monitoria);
 
         }
         //Retorna todas as monitorias de um usuário especifíco
     async list(req, res) {
             const { user_id } = req.params;
-            const user = await User.findByPk(user_id, { include: { association: 'monitorias' } });
+            const monitorias = await Monitoria.findAll({ where: { user_id } });
+            // const user = await User.findAll({ where: { id: user_id } }, { include: { association: 'monitorias' } });
 
 
-            return res.json(user);
+            return res.json(monitorias);
         }
         //Retorna todas as monitorias
     async index(req, res) {
-        const user_id = 0;
-        const monitorias = await Monitoria.findAll();
+        const monitorias = await Monitoria.findAll({});
 
 
         return res.json(monitorias);

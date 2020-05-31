@@ -9,8 +9,7 @@ const routes = new Router();
 import UserController from '../controllers/UserController';
 
 routes.post('/', UserController.store);
-routes.use(authMiddleware);
-routes.get('/', UserController.index);
+routes.get('/', authMiddleware, UserController.index);
 routes.get('/:id', UserController.show);
 routes.put('/:id', multer(multerConfig).single('file'), UserController.update);
 routes.delete('/:id', UserController.destroy);

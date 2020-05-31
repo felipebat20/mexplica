@@ -1,4 +1,6 @@
 import User from '../models/User';
+import Monitoria from '../models/Monitoria';
+import Subject from '../models/Subject';
 
 
 class UserController {
@@ -10,15 +12,27 @@ class UserController {
         const id = req.params.id;
         const userExists = await User.findByPk(id);
 
-        if (!userExists) { res.status(401).send("Usuário não encontrado.") }
+        if (!userExists) {
+            return res.status(401).json({ erro: 'User not Found' })
+        }
 
         try {
-            const user = await User.findByPk(id);
+            const user = await User.findByPk(id, {
+                include: [{
+                        model: Monitoria,
+                        as: 'monitorias',
+                        attributes: ['id', 'title', 'scope', 'value', 'location', 'description']
+                    },
+                    {
+                        model: Subject,
+                        as: 'subjects',
+                        attributes: ['id', 'name']
+                    }
+                ]
+            });
             return res.json(user);
         } catch (err) {
-            return res.json({
-                erro: err
-            });
+            console.log(err);
         }
 
 

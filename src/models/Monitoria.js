@@ -5,6 +5,8 @@ class Monitorias extends Model {
         super.init({
             title: DataTypes.STRING,
             scope: DataTypes.STRING,
+            value: DataTypes.DECIMAL,
+            location: DataTypes.STRING,
             description: DataTypes.STRING,
         }, {
             sequelize: connection

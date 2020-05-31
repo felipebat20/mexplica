@@ -1,11 +1,12 @@
 import Sequelize, { Model, DataTypes } from 'sequelize';
-import bcrypt from 'bcryptjs';
+
 class Subject extends Model {
     static init(connection) {
         super.init({
             name: DataTypes.STRING,
         }, {
-            sequelize: connection
+            sequelize: connection,
+            tableName: 'subjects',
         });
     }
 
