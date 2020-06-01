@@ -6,6 +6,7 @@ import userRoute from './routes/Users';
 import monitoriaRoute from './routes/Monitorias';
 import sessionRoute from './routes/Sessions';
 import subjectRoute from './routes/Subjects';
+import proposalRoute from './routes/Propostas';
 
 import './database';
 
@@ -26,6 +27,7 @@ class App {
         this.app.use(monitoriaRoute);
         this.app.use(sessionRoute);
         this.app.use(subjectRoute);
+        this.app.use(proposalRoute);
     }
 }
 export default new App().app;
