@@ -4,6 +4,21 @@ import User from '../models/User'
 
 
 class SubjectController {
+    async index(req, res) {
+        const { user_id } = req.params;
+
+        const user = await User.findByPk(user_id, {
+            include: { association: 'subjects' }
+        });
+
+        if (!user) {
+            return res.json(error: 'User not found');
+        }
+
+        return res.json(user);
+
+    }
+
     async store(req, res) {
         const { user_id } = req.params;
         const { name } = req.body;
@@ -24,8 +39,9 @@ class SubjectController {
 
     }
 
-    async index(req, res) {
+    async delete(req, res) {
         const { user_id } = req.params;
+        const { name } = req.body;
 
         const user = await User.findByPk(user_id);
 
@@ -33,6 +49,13 @@ class SubjectController {
             return res.status(401).json({ error: 'User not found' });
         }
 
+        const subject = await Subject.findOne({
+            where: { name }
+        });
+
+        await user.removeSubject(subject);
+
+        return res.json();
     }
 
 }

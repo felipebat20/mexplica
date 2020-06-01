@@ -3,35 +3,49 @@ import User from '../models/User';
 
 class MonitoriaController {
     async store(req, res) {
-            const { user_id } = req.params;
-            const { title, scope, value, location, description } = req.body;
-            console.log(user_id);
+        const { user_id } = req.params;
+        const { title, scope, value, location, description } = req.body;
+        console.log(user_id);
 
-            const user = await User.findByPk(user_id).catch(err => {
-                console.log(err);
-            });
+        const user = await User.findByPk(user_id).catch(err => {
+            console.log(err);
+        });
 
-            if (!user) {
-                return res.status(400).json({ error: 'User not found' });
-            }
-            const monitoria = await Monitoria.create({ title, scope, value, location, description, user_id });
-
-
-            return res.json(monitoria);
-
+        if (!user) {
+            return res.status(400).json({ error: 'User not found' });
         }
-        //Retorna todas as monitorias de um usuário especifíco
+        const monitoria = await Monitoria.create({ title, scope, value, location, description, user_id });
+
+
+        return res.json(monitoria);
+
+    }
+
+    //Retorna todas as monitorias de um usuário especifíco
     async list(req, res) {
-            const { user_id } = req.params;
-            const monitorias = await Monitoria.findAll({ where: { user_id } });
-            // const user = await User.findAll({ where: { id: user_id } }, { include: { association: 'monitorias' } });
+        const { user_id } = req.params;
+        const user = await User.findByPk(user_id, {
+            include: [{
+                model: Monitoria,
+                as: 'monitorias',
+                attributes: ['id', 'title', 'scope', 'value', 'location', 'description']
+            }]
+        });
 
 
-            return res.json(monitorias);
-        }
-        //Retorna todas as monitorias
+
+        return res.json(user);
+    }
+
+    //Retorna todas as monitorias
     async index(req, res) {
-        const monitorias = await Monitoria.findAll({});
+        const monitorias = await Monitoria.findAll({
+            include: [{
+                model: User,
+                as: 'user',
+                attributes: ['id', 'name', 'email']
+            }]
+        });
 
 
         return res.json(monitorias);
