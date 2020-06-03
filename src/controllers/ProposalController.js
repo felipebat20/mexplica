@@ -1,5 +1,6 @@
 import Proposal from '../models/Proposal';
 import Monitoria from '../models/Monitoria';
+import User from '../models/User';
 
 
 class ProposalController {
@@ -12,6 +13,30 @@ class ProposalController {
 
         return res.json(propostaCriada);
 
+    }
+    async index(req, res) {
+        const { user_id, monitoria_id } = req.params;
+
+        const monitoria = await Monitoria.findByPk(monitoria_id, {
+            include: [{
+                    association: 'user',
+                    attributes: ['id', 'name', 'email']
+                },
+                {
+                    association: 'proposals',
+                    attributes: ['id', 'proposta'],
+                    include: [{
+                        association: 'user',
+                        attributes: [
+                            'id',
+                            'name'
+                        ]
+                    }]
+                },
+            ]
+        });
+
+        return res.json(monitoria);
     }
 }
 

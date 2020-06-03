@@ -15,7 +15,7 @@ class Monitorias extends Model {
     }
     static associate(models) {
         this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
-        this.hasMany(models.Proposal, { foreignKey: 'monitoria_id', as: 'proposal' });
+        this.hasMany(models.Proposal, { foreignKey: 'monitoria_id', as: 'proposals' });
     }
 }
 
