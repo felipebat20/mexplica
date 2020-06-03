@@ -64,19 +64,22 @@ class MonitoriaController {
         if (!user) {
             return res.status(400).json({ erro: "User not found" });
         }
-        const monitoria = await Monitoria.findByPk(id);
+        let monitoria = await Monitoria.findByPk(id);
+        if (monitoria.user_id != user_id) {
+            return res.status(401).json({ error: "User is not authorized " });
+        }
+
         if (!monitoria) {
             return res.status(400).json({ erro: "Monitoria not found" });
         }
 
-        const { title, scope, description } = req.body;
-        try {
-            const result = await Monitoria.update({ title, scope, description }, { where: { user_id, id } });
-            const monitoria = await Monitoria.findByPk(id);
-            return res.json(monitoria);
-        } catch (err) {
-            return res.status(200).json({ erro: err });
-        }
+        const { title, scope, value, location, description } = req.body;
+
+        monitoria = await Monitoria.update({ title, scope, value, location, description }, { where: { user_id: user_id, id: id } });
+
+        monitoria = await Monitoria.findByPk(id);
+        return res.json(monitoria);
+
     }
     async delete(req, res) {
         const { user_id, id } = req.params;
@@ -84,10 +87,11 @@ class MonitoriaController {
         if (!user) {
             return res.status(400).json({ erro: "User not found" });
         }
-        const monitoria = await Monitoria.findByPk(id);
+        const monitoria = await Monitoria.findByPk(id, );
         if (!monitoria) {
             return res.status(400).json({ erro: "Monitoria not found" });
         }
+
         if (user_id != monitoria.user_id) {
             return res.status(400).json({ erro: 'O usuário e monitoria não coincidem' });
         }
