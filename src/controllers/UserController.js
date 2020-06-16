@@ -1,6 +1,7 @@
 import User from '../models/User';
 import Monitoria from '../models/Monitoria';
 import Subject from '../models/Subject';
+import Proposal from '../models/Proposal';
 
 
 class UserController {
@@ -21,13 +22,25 @@ class UserController {
                 include: [{
                         model: Monitoria,
                         as: 'monitorias',
-                        attributes: ['id', 'title', 'scope', 'value', 'location', 'description']
+                        attributes: ['id', 'title', 'scope', 'value', 'location', 'description'],
+                        include: [{
+                            association: 'proposals',
+                            attributes: ['id', 'proposta'],
+                            include: [{
+                                association: 'user',
+                                attributes: [
+                                    'id',
+                                    'name'
+                                ]
+                            }]
+                        }]
                     },
                     {
                         model: Subject,
                         as: 'subjects',
                         attributes: ['id', 'name']
-                    }
+                    },
+                    
                 ]
             });
             return res.json(user);
