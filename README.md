@@ -9,7 +9,7 @@ Tecnologias: Node.JS
 Clone o repositorio pelo seu terminal utilizando o seguinte comando:
 
 ```
-$ git clone https://github.com/fquevedo/facebook-google-login-auth
+$ git clone https://github.com/felipebat20/mexplica
 $ cd mexplica
 $ npm install
 ```
