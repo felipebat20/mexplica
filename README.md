@@ -26,4 +26,4 @@ ou
 $yarn dev
 ```
 ## Portas 
-[http://localhost:3333] ou [https://localhost:3333]
+[http://localhost:3333](https://localhost:3333)
